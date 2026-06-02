@@ -58,7 +58,7 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: articleSchema }} />
-      {post.faqSchema && <FAQSchema questions={post.faqSchema} />}
+      {post.faqSchema && <FAQSchema questions={post.faqSchema as any} />}
 
       {/* Reading Progress Bar */}
       <div id="reading-progress" className="fixed top-0 left-0 h-1 bg-[#E76F51] z-50 transition-all" style={{ width: '0%' }} />
