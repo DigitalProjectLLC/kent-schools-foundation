@@ -39,7 +39,7 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   const canonical = post.canonicalUrl ?? `https://kentschoolsfoundation.org/blog/${slug}`;
-  const related = getRelatedPosts(post.tags ?? [], slug);
+  const related = getRelatedPosts(Array.isArray(post.tags) ? post.tags : [], slug);
   const readMin = Math.max(1, Math.ceil(post.content.split(/\s+/).length / 200));
   const hasPhone = ''.length > 2;
 
@@ -52,7 +52,7 @@ export default async function BlogPostPage({ params }: Props) {
     datePublished: post.date,
     author: { '@type': 'Organization', name: 'Kent Schools Foundation', url: 'https://kentschoolsfoundation.org' },
     publisher: { '@type': 'Organization', name: 'Kent Schools Foundation' },
-    keywords: post.tags?.join(', '),
+    keywords: (Array.isArray(post.tags) ? post.tags.join(', ') : ''),
   });
 
   return (
@@ -74,9 +74,9 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Header */}
         <header className="max-w-3xl mx-auto px-6 mb-10">
-          {post.tags?.length > 0 && (
+          {Array.isArray(post.tags) && post.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-5">
-              {post.tags.map((tag: string) => (
+              {(Array.isArray(post.tags) ? post.tags : []).map((tag: string) => (
                 <span key={tag} className="text-[11px] font-semibold tracking-[0.15em] text-[#1B3A5C] uppercase bg-[#1B3A5C]/10 px-3 py-1.5 rounded-full">{tag}</span>
               ))}
             </div>
